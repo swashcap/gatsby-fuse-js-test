@@ -20,9 +20,8 @@ export const createPages = async (args, options) => {
 
   const response = await graphql(`
     {
-      allMdx {
+      allMarkdownRemark {
         nodes {
-          id
           fields {
             slug
           }
@@ -43,7 +42,7 @@ export const createPages = async (args, options) => {
     return;
   }
 
-  const store = response.data.allMdx.nodes.map((node) => {
+  const store = response.data.allMarkdownRemark.nodes.map((node) => {
     return {
       id: getId(),
       slug: node.fields.slug,

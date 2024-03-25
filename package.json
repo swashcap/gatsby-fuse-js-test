@@ -8,27 +8,24 @@
     "gatsby"
   ],
   "scripts": {
-    "build": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 gatsby build",
+    "build": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=16384 GATSBY_TELEMETRY_DISABLED=1 gatsby build",
     "clean": "gatsby clean",
-    "develop": "NODE_OPTIONS=--max-old-space-size=8192 gatsby develop",
     "format": "prettier --write '**/*'",
     "serve": "gatsby serve",
-    "start": "NODE_OPTIONS=--max-old-space-size=8192 gatsby develop",
+    "start": "NODE_OPTIONS=--max-old-space-size=16384 GATSBY_TELEMETRY_DISABLED=1 gatsby develop",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@mdx-js/react": "^3.0.1",
     "classnames": "^2.5.1",
     "fuse.js": "^7.0.0",
     "gatsby": "^5.13.3",
-    "gatsby-plugin-mdx": "^5.13.1",
     "gatsby-source-filesystem": "^5.13.1",
+    "gatsby-transformer-remark": "^6.13.1",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-aria": "^3.32.1",
     "react-aria-components": "^1.1.1",
-    "react-dom": "^18.2.0",
-    "react-use-fusejs": "^2.0.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",

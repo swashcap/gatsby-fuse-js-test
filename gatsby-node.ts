@@ -12,7 +12,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   const { createPage } = actions;
 
   const result = await graphql<{
-    allMdx: {
+    allMarkdownRemark: {
       nodes: {
         id: string;
         fields: {
@@ -25,7 +25,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     };
   }>(`
     query CreatePages {
-      allMdx {
+      allMarkdownRemark {
         nodes {
           id
           fields {
@@ -44,7 +44,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   }
 
   // you'll call `createPage` for each result
-  result.data?.allMdx.nodes.forEach((node) => {
+  result.data?.allMarkdownRemark.nodes.forEach((node) => {
     createPage({
       // As mentioned above you could also query something else like frontmatter.title above and use a helper function
       // like slugify to create a slug
@@ -65,7 +65,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = (args) => {
     node,
   } = args;
 
-  if (node.internal.type !== "Mdx") {
+  if (node.internal.type !== "MarkdownRemark") {
     return;
   }
 

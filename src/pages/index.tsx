@@ -11,7 +11,7 @@ export default function IndexPage(props: IndexPageProps) {
   return (
     <Layout>
       <ul>
-        {data.allMdx.nodes.map((node) => {
+        {data.allMarkdownRemark.nodes.map((node) => {
           if (!node.fields || !node.fields.slug) {
             console.warn("Missing information for node:", node);
 
@@ -33,7 +33,7 @@ export default function IndexPage(props: IndexPageProps) {
 
 export const query = graphql`
   query IndexPage {
-    allMdx(limit: 10) {
+    allMarkdownRemark(limit: 10) {
       nodes {
         fields {
           slug

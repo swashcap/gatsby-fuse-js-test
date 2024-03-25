@@ -21,8 +21,10 @@ export const createPages = async (args, options) => {
       allMdx {
         nodes {
           id
-          frontmatter {
+          fields {
             slug
+          }
+          frontmatter {
             title
           }
         }
@@ -42,7 +44,7 @@ export const createPages = async (args, options) => {
   const store = response.data.allMdx.nodes.map((node) => {
     return {
       id: node.id,
-      slug: node.frontmatter.slug,
+      slug: node.fields.slug,
       title: node.frontmatter.title,
     };
   });

@@ -12,17 +12,17 @@ export default function IndexPage(props: IndexPageProps) {
     <Layout>
       <ul>
         {data.allMdx.nodes.map((node) => {
-          if (!node.frontmatter || !node.frontmatter.slug) {
+          if (!node.fields || !node.fields.slug) {
             console.warn("Missing information for node:", node);
 
             return null;
           }
 
-          const { slug, title } = node.frontmatter;
+          const { slug } = node.fields;
 
           return (
             <li key={slug}>
-              <Link to={slug}>{title}</Link>
+              <Link to={slug}>{node.frontmatter?.title}</Link>
             </li>
           );
         })}
@@ -33,10 +33,12 @@ export default function IndexPage(props: IndexPageProps) {
 
 export const query = graphql`
   query IndexPage {
-    allMdx {
+    allMdx(limit: 10) {
       nodes {
-        frontmatter {
+        fields {
           slug
+        }
+        frontmatter {
           title
         }
       }

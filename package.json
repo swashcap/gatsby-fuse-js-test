@@ -8,12 +8,12 @@
     "gatsby"
   ],
   "scripts": {
-    "build": "NODE_ENV=production gatsby build",
+    "build": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 gatsby build",
     "clean": "gatsby clean",
-    "develop": "gatsby develop",
+    "develop": "NODE_OPTIONS=--max-old-space-size=8192 gatsby develop",
     "format": "prettier --write '**/*'",
     "serve": "gatsby serve",
-    "start": "gatsby develop",
+    "start": "NODE_OPTIONS=--max-old-space-size=8192 gatsby develop",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

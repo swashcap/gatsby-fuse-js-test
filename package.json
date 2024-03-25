@@ -8,11 +8,12 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
     "build": "gatsby build",
-    "serve": "gatsby serve",
     "clean": "gatsby clean",
+    "develop": "gatsby develop",
+    "format": "prettier --write '**/*'",
+    "serve": "gatsby serve",
+    "start": "gatsby develop",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -29,6 +30,10 @@
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "gatsby-plugin-fusejs": "^2.0.2",
+    "prettier": "^3.2.5",
     "typescript": "^5.3.3"
-  }
+  },
+  "workspaces": [
+    "plugins/search"
+  ]
 }

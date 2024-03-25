@@ -1,0 +1,10 @@
+*.json
+*.md
+*.png
+*.svg
+.cache
+.gitignore
+.nvmrc
+.prettierignore
+docs
+public

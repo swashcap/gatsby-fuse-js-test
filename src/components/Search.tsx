@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
-import { useGatsbyPluginFusejs } from 'react-use-fusejs'
+import * as React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import { useGatsbyPluginFusejs } from "react-use-fusejs";
 
 export function Search() {
   const data = useStaticQuery(graphql`
@@ -10,10 +10,10 @@ export function Search() {
         data
       }
     }
-  `)
+  `);
 
-  const [query, setQuery] = React.useState('')
-  const result = useGatsbyPluginFusejs(query, data.fusejs)
+  const [query, setQuery] = React.useState("");
+  const result = useGatsbyPluginFusejs(query, data.fusejs);
 
   return (
     <div>
@@ -28,7 +28,7 @@ export function Search() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
-export default Search
+export default Search;

@@ -1,10 +1,14 @@
-import { GatsbyNode } from "gatsby"
+import { GatsbyNode } from "gatsby";
 import path from "node:path";
 
-const postTemplate = path.resolve(`./src/templates/page.tsx`)
+const postTemplate = path.resolve(`./src/templates/page.tsx`);
 
-export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+export const createPages: GatsbyNode["createPages"] = async ({
+  graphql,
+  actions,
+  reporter,
+}) => {
+  const { createPage } = actions;
 
   const result = await graphql(`
     query {
@@ -20,14 +24,14 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions,
         }
       }
     }
-  `)
+  `);
 
   if (result.errors) {
-    reporter.panicOnBuild('Error loading MDX result', result.errors)
+    reporter.panicOnBuild("Error loading MDX result", result.errors);
   }
 
   // Create blog post pages.
-  const posts = result.data.allMdx.nodes
+  const posts = result.data.allMdx.nodes;
 
   // you'll call `createPage` for each result
   posts.forEach((node) => {
@@ -40,6 +44,6 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions,
       // You can use the values in this context in
       // our page layout component
       context: { id: node.id },
-    })
-  })
-}
+    });
+  });
+};

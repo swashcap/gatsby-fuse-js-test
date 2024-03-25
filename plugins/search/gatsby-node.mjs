@@ -1,5 +1,6 @@
 import Fuse from "fuse.js";
 import fs from "node:fs/promises";
+import incstr from "incstr";
 import path from "node:path";
 
 const isProdBuild = process.env.NODE_ENV === "production";
@@ -12,6 +13,7 @@ export const createPages = async (args, options) => {
   const { cwd = process.cwd() } = options;
 
   const buildDate = new Date().toISOString();
+  const getId = incstr.idGenerator({ prefix: "fuse-" });
   const staticDirname = path.join(cwd, "public");
   const searchIndexFilename = path.join(staticDirname, "search-index.json");
   const searchResultsFilename = path.join(staticDirname, "search-results.json");
@@ -43,7 +45,7 @@ export const createPages = async (args, options) => {
 
   const store = response.data.allMdx.nodes.map((node) => {
     return {
-      id: node.id,
+      id: getId(),
       slug: node.fields.slug,
       title: node.frontmatter.title,
     };

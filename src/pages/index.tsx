@@ -12,11 +12,17 @@ export default function IndexPage(props: IndexPageProps) {
     <Layout>
       <ul>
         {data.allMdx.nodes.map((node) => {
+          if (!node.frontmatter || !node.frontmatter.slug) {
+            console.warn("Missing information for node:", node);
+
+            return null;
+          }
+
+          const { slug, title } = node.frontmatter;
+
           return (
-            <li>
-              <Link to={node.frontmatter?.slug ?? "/"}>
-                {node.frontmatter?.title}
-              </Link>
+            <li key={slug}>
+              <Link to={slug}>{title}</Link>
             </li>
           );
         })}

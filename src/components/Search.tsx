@@ -11,6 +11,7 @@ import {
   Popover,
 } from "react-aria-components";
 import { FuseResult } from "fuse.js";
+import { navigate } from "gatsby";
 
 import * as styles from "./Search.module.css";
 import { SearchResult, useFuseInstance } from "./useSearch";
@@ -43,14 +44,25 @@ export const Search: React.FunctionComponent<SearchProps> = (props) => {
       }}
       role="search"
     >
-      <ComboBox isRequired name="q">
+      <ComboBox
+        defaultItems={results}
+        inputValue={query}
+        name="q"
+        onInputChange={(newValue) => setQuery(newValue)}
+        onSelectionChange={(key) => {
+          if (typeof key !== "string") {
+            console.warn(`Could not navigate to ${key}`);
+
+            return;
+          }
+
+          navigate(key);
+        }}
+      >
         <Label>Search</Label>
 
         <div>
-          <Input
-            onChange={(event) => setQuery(event.target.value)}
-            value={query}
-          />
+          <Input />
           <Button>▼</Button>
         </div>
 
@@ -61,7 +73,11 @@ export const Search: React.FunctionComponent<SearchProps> = (props) => {
             {results.map((result) => {
               const { item } = result;
 
-              return <ListBoxItem key={item.id}>{item.title}</ListBoxItem>;
+              return (
+                <ListBoxItem id={item.slug} key={item.slug}>
+                  {item.title}
+                </ListBoxItem>
+              );
             })}
           </ListBox>
         </Popover>

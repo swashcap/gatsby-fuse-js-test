@@ -10,8 +10,20 @@ export const createPages: GatsbyNode["createPages"] = async ({
 }) => {
   const { createPage } = actions;
 
-  const result = await graphql(`
-    query {
+  const result = await graphql<{
+    allMdx: {
+      nodes: {
+        id: string;
+        frontmatter: {
+          slug: string;
+        };
+        internal: {
+          contentFilePath: string;
+        };
+      }[];
+    };
+  }>(`
+    query CreatePages {
       allMdx {
         nodes {
           id
@@ -30,11 +42,8 @@ export const createPages: GatsbyNode["createPages"] = async ({
     reporter.panicOnBuild("Error loading MDX result", result.errors);
   }
 
-  // Create blog post pages.
-  const posts = result.data.allMdx.nodes;
-
   // you'll call `createPage` for each result
-  posts.forEach((node) => {
+  result.data?.allMdx.nodes.forEach((node) => {
     createPage({
       // As mentioned above you could also query something else like frontmatter.title above and use a helper function
       // like slugify to create a slug

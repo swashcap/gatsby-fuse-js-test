@@ -3,7 +3,7 @@ import { PageProps, graphql } from "gatsby";
 import { MDXProvider } from "@mdx-js/react";
 import { Link } from "gatsby";
 
-import { Search } from "../components/Search";
+import { Layout } from "../components/Layout";
 
 const shortcodes = { Link }; // Provide common components here
 
@@ -13,13 +13,11 @@ export default function PageTemplate(props: PageTemplateProps) {
   const { data, children } = props;
 
   return (
-    <>
-      <Search />
-
+    <Layout>
       <h1>{data?.mdx?.frontmatter?.title}</h1>
 
       <MDXProvider components={shortcodes}>{children}</MDXProvider>
-    </>
+    </Layout>
   );
 }
 

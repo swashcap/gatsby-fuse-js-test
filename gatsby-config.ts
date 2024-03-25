@@ -26,6 +26,29 @@ const config: GatsbyConfig = {
         path: "./docs/",
       },
     },
+    {
+      resolve: `gatsby-plugin-fusejs`,
+      options: {
+        query: `
+          {
+            allMdx {
+              nodes {
+                id
+                frontmatter {
+                  title
+                }
+              }
+            }
+          }
+        `,
+        keys: ["title"],
+        normalizer: ({ data }) =>
+          data.allMdx.nodes.map((node) => ({
+            id: node.id,
+            title: node.frontmatter.title,
+          })),
+      },
+    },
   ],
 };
 

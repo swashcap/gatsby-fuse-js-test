@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "gatsby";
+import { Link, graphql, useStaticQuery } from "gatsby";
 import { VisuallyHidden, VisuallyHiddenProps } from "react-aria";
 import "normalize.css/normalize.css";
 
@@ -12,6 +12,16 @@ export interface LayoutProps {
 
 export const Layout: React.FunctionComponent<LayoutProps> = (props) => {
   const { children } = props;
+
+  const data = useStaticQuery<Queries.LayoutQuery>(graphql`
+    query Layout {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `);
 
   /** @note Casting is necessary to add `href` */
   const visuallyHiddenProps = {
@@ -27,7 +37,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = (props) => {
 
       <header className={styles.header}>
         <Link rel="home" to="/">
-          gatsby-fuse-js-test
+          {data.site?.siteMetadata?.title}
         </Link>
 
         <Search />

@@ -1,5 +1,5 @@
 import React from "react";
-import { PageProps, graphql } from "gatsby";
+import { HeadFC, PageProps, graphql } from "gatsby";
 import { MDXProvider } from "@mdx-js/react";
 import { Link } from "gatsby";
 
@@ -14,7 +14,7 @@ export default function PageTemplate(props: PageTemplateProps) {
 
   return (
     <Layout>
-      <h1>{data?.mdx?.frontmatter?.title}</h1>
+      <h1>{data.mdx?.frontmatter?.title}</h1>
 
       <MDXProvider components={shortcodes}>{children}</MDXProvider>
     </Layout>
@@ -28,5 +28,21 @@ export const query = graphql`
         title
       }
     }
+    site {
+      siteMetadata {
+        title
+      }
+    }
   }
 `;
+
+export const Head: HeadFC<Queries.PageTemplateQuery> = (props) => {
+  const siteTitle = props.data.site?.siteMetadata?.title;
+  const mdxTitle = props.data.mdx?.frontmatter?.title;
+
+  return (
+    <title>
+      {mdxTitle} | {siteTitle}
+    </title>
+  );
+};

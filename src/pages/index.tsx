@@ -5,7 +5,7 @@ import { Layout } from "../components/Layout";
 
 export type IndexPageProps = PageProps<Queries.IndexPageQuery>;
 
-const IndexPage: React.FunctionComponent<IndexPageProps> = (props) => {
+export default function IndexPage(props: IndexPageProps) {
   const { data } = props;
 
   return (
@@ -23,7 +23,7 @@ const IndexPage: React.FunctionComponent<IndexPageProps> = (props) => {
       </ul>
     </Layout>
   );
-};
+}
 
 export const query = graphql`
   query IndexPage {
@@ -35,9 +35,16 @@ export const query = graphql`
         }
       }
     }
+    site {
+      siteMetadata {
+        title
+      }
+    }
   }
 `;
 
-export default IndexPage;
+export const Head: HeadFC<Queries.IndexPageQuery> = (props) => {
+  const siteTitle = props.data.site?.siteMetadata?.title;
 
-export const Head: HeadFC = () => <title>Home Page</title>;
+  return <title>{siteTitle}</title>;
+};

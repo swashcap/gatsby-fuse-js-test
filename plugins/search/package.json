@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "fuse.js": "^7.0.0",
+    "gatsby": "^5.13.3"
+  },
+  "name": "gatsby-fuse-js-test-plugins-search",
+  "private": true,
+  "version": "0.0.0"
+}

@@ -8,7 +8,7 @@
     "gatsby"
   ],
   "scripts": {
-    "build": "gatsby build",
+    "build": "NODE_ENV=production gatsby build",
     "clean": "gatsby clean",
     "develop": "gatsby develop",
     "format": "prettier --write '**/*'",
@@ -29,7 +29,6 @@
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "gatsby-plugin-fusejs": "^2.0.2",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },

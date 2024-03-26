@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "fuse.js": "^7.0.0",
+    "gatsby": "^5.13.3"
+  },
+  "name": "gatsby-fuse-js-test-plugins-external-search",
+  "private": true,
+  "version": "0.0.0"
+}

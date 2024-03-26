@@ -14,7 +14,7 @@ import { FuseResult } from "fuse.js";
 import { navigate } from "gatsby";
 
 import * as styles from "./Search.module.css";
-import { SearchResult, useFuseInstance } from "./useSearch";
+import { SearchResult, useFuse } from "../utils/useFuse";
 
 export type SearchProps = React.ComponentPropsWithoutRef<"form">;
 
@@ -22,16 +22,16 @@ export const Search: React.FunctionComponent<SearchProps> = (props) => {
   const { className, ...rest } = props;
 
   const [query, setQuery] = React.useState("");
-  const { data, error, isLoading } = useFuseInstance();
+  const { errors, fuse, isLoading } = useFuse();
   const [results, setResults] = React.useState<FuseResult<SearchResult>[]>([]);
 
   React.useEffect(() => {
-    if (!data || !query) {
+    if (!fuse || !query) {
       return;
     }
 
-    setResults(data.search(query));
-  }, [data, query]);
+    setResults(fuse.search(query));
+  }, [fuse, query]);
 
   return (
     <form

@@ -113,7 +113,7 @@ export const useFuse = () => {
     }
 
     if (indexFetch.data && resultsFetch.data) {
-      const parsedIndex = Fuse.parseIndex(indexFetch.data);
+      const parsedIndex = Fuse.parseIndex(indexFetch.data.data);
 
       console.info("Creating singular Fuse.js instance");
 

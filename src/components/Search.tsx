@@ -10,10 +10,10 @@ import {
   TextField,
 } from "react-aria-components";
 import { FuseResult } from "fuse.js";
-import { Link } from "gatsby";
 import { VisuallyHidden } from "react-aria";
 
 import * as styles from "./Search.module.css";
+import { ArticleLink } from "./ArticleLink";
 import { SearchResult, useFuse } from "../utils/useFuse";
 
 export interface SearchProps {}
@@ -76,15 +76,11 @@ export const Search: React.FunctionComponent<SearchProps> = () => {
                 role="list"
               >
                 {results.map((result) => {
-                  const { slug, title } = result.item;
+                  const { date, slug, title } = result.item;
 
                   return (
                     <li key={slug}>
-                      {slug.startsWith("/") ? (
-                        <Link to={slug}>{title}</Link>
-                      ) : (
-                        <a href={slug}>{title}</a>
-                      )}
+                      <ArticleLink date={date} href={slug} title={title} />
                     </li>
                   );
                 })}

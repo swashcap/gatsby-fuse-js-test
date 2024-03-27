@@ -20,6 +20,7 @@ export const createPages = async (args, options) => {
     const title = `External ${faker.lorem.words({ max: 8, min: 2 })}`;
 
     return {
+      date: faker.date.past(),
       id: `external-${i + 1}`,
       title,
       url: `http://localhost:8000/${_.kebabCase(title)}/`,

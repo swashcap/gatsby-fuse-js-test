@@ -89,6 +89,25 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: null,
+          },
+        ],
+      }),
+    ).toBe(false);
+    expect(
+      validateExternalResults({
+        data: [
+          {
+            date: "",
+          },
+        ],
+      }),
+    ).toBe(false);
+    expect(
+      validateExternalResults({
+        data: [
+          {
+            date: "",
             id: null,
           },
         ],
@@ -98,6 +117,7 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: "",
             id: "",
           },
         ],
@@ -107,6 +127,7 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: "",
             id: "",
             title: null,
           },
@@ -117,6 +138,7 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: "",
             id: "",
             title: "",
           },
@@ -127,6 +149,7 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: "",
             id: "",
             title: "",
             url: null,
@@ -138,6 +161,7 @@ describe("validateExternal", () => {
       validateExternalResults({
         data: [
           {
+            date: "",
             id: "",
             title: "",
             url: "",

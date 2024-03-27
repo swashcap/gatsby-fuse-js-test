@@ -26,6 +26,7 @@ export const createPages = async (args, options) => {
             slug
           }
           frontmatter {
+            date
             title
           }
         }
@@ -44,6 +45,7 @@ export const createPages = async (args, options) => {
 
   const store = response.data.allMarkdownRemark.nodes.map((node) => {
     return {
+      date: node.frontmatter.date,
       id: getId(),
       slug: node.fields.slug,
       title: node.frontmatter.title,

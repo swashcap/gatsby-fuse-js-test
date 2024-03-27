@@ -29,6 +29,7 @@ export const validateExternalIndex = (
 
 export interface ExternalResults {
   data: {
+    date: string;
     id: string;
     title: string;
     url: string;
@@ -46,6 +47,8 @@ export const validateExternalResults = (
     Array.isArray(response.data) &&
     !!response.data[0] &&
     typeof response.data[0] === "object" &&
+    "date" in response.data[0] &&
+    typeof response.data[0].date === "string" &&
     "id" in response.data[0] &&
     typeof response.data[0].id === "string" &&
     "title" in response.data[0] &&

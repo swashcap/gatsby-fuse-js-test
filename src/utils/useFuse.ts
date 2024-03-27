@@ -9,6 +9,7 @@ import {
 } from "./validateExternal";
 
 export interface SearchResult {
+  date: string;
   id: string;
   slug: string;
   title: string;
@@ -95,6 +96,7 @@ export const useFuse = () => {
 
           ...externalResultsFetch.data.data.map((result) => {
             return {
+              date: result.date,
               id: result.id,
               slug: result.url,
               title: result.title,

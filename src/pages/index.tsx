@@ -1,7 +1,10 @@
 import * as React from "react";
 import { HeadFC, Link, PageProps, graphql } from "gatsby";
 
+import * as styles from "./index.module.css";
 import { Layout } from "../components/Layout";
+import { formatDate } from "../utils/formatDate";
+import { ArticleLink } from "../components/ArticleLink";
 
 export type IndexPageProps = PageProps<Queries.IndexPageQuery>;
 
@@ -10,7 +13,9 @@ export default function IndexPage(props: IndexPageProps) {
 
   return (
     <Layout>
-      <ul>
+      <h2>Ten latest articles:</h2>
+
+      <ul className={styles.list} role="list">
         {data.allMarkdownRemark.nodes.map((node) => {
           if (!node.fields || !node.fields.slug) {
             console.warn("Missing information for node:", node);
@@ -22,7 +27,11 @@ export default function IndexPage(props: IndexPageProps) {
 
           return (
             <li key={slug}>
-              <Link to={slug}>{node.frontmatter?.title}</Link>
+              <ArticleLink
+                date={node.frontmatter?.date}
+                href={slug}
+                title={node.frontmatter?.title}
+              />
             </li>
           );
         })}
@@ -33,12 +42,13 @@ export default function IndexPage(props: IndexPageProps) {
 
 export const query = graphql`
   query IndexPage {
-    allMarkdownRemark(limit: 10) {
+    allMarkdownRemark(limit: 10, sort: { frontmatter: { date: DESC } }) {
       nodes {
         fields {
           slug
         }
         frontmatter {
+          date
           title
         }
       }

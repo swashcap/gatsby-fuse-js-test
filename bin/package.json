@@ -1,0 +1,16 @@
+{
+  "bin": "bin.js",
+  "main": "index.js",
+  "name": "gatsby-fuse-js-test-bin",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "connect-slow": "^0.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "response-time": "^2.3.2",
+    "serve-static": "^1.15.0"
+  }
+}

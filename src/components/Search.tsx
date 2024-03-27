@@ -1,26 +1,24 @@
 import * as React from "react";
-import classNames from "classnames";
 import {
   Button,
-  ComboBox,
-  FieldError,
+  Dialog,
+  DialogTrigger,
+  Heading,
   Input,
   Label,
-  ListBox,
-  ListBoxItem,
-  Popover,
+  Modal,
+  TextField,
 } from "react-aria-components";
 import { FuseResult } from "fuse.js";
-import { navigate } from "gatsby";
+import { Link } from "gatsby";
+import { VisuallyHidden } from "react-aria";
 
 import * as styles from "./Search.module.css";
 import { SearchResult, useFuse } from "../utils/useFuse";
 
-export type SearchProps = React.ComponentPropsWithoutRef<"form">;
+export interface SearchProps {}
 
-export const Search: React.FunctionComponent<SearchProps> = (props) => {
-  const { className, ...rest } = props;
-
+export const Search: React.FunctionComponent<SearchProps> = () => {
   const [query, setQuery] = React.useState("");
   const { errors, fuse, isLoading } = useFuse();
   const [results, setResults] = React.useState<FuseResult<SearchResult>[]>([]);
@@ -34,54 +32,67 @@ export const Search: React.FunctionComponent<SearchProps> = (props) => {
   }, [fuse, query]);
 
   return (
-    <form
-      className={classNames(className)}
-      {...rest}
-      onSubmit={(event) => {
-        event.preventDefault();
+    <DialogTrigger>
+      <Button className={styles.trigger}>
+        <span aria-hidden="true">🔍</span>
+        Search
+      </Button>
 
-        rest.onSubmit?.(event);
-      }}
-      role="search"
-    >
-      <ComboBox
-        defaultItems={results}
-        inputValue={query}
-        name="q"
-        onInputChange={(newValue) => setQuery(newValue)}
-        onSelectionChange={(key) => {
-          if (typeof key !== "string") {
-            console.warn(`Could not navigate to ${key}`);
+      <Modal className={styles.modal}>
+        <Dialog className={styles.dialog}>
+          {({ close }) => (
+            <>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  close();
+                }}
+                role="search"
+              >
+                <VisuallyHidden>
+                  <Heading slot="title">Search</Heading>
+                </VisuallyHidden>
 
-            return;
-          }
+                <TextField
+                  autoFocus
+                  className={styles.field}
+                  onChange={(nextValue) => setQuery(nextValue)}
+                  value={query}
+                >
+                  <Label className={styles.fieldLabel}>
+                    <span aria-label="Search">🔍</span>
+                  </Label>
+                  <Input className={styles.fieldInput} />
+                </TextField>
 
-          navigate(key);
-        }}
-      >
-        <Label>Search</Label>
+                <VisuallyHidden isFocusable>
+                  <Button onPress={close}>Submit</Button>
+                </VisuallyHidden>
+              </form>
 
-        <div>
-          <Input />
-          <Button>▼</Button>
-        </div>
+              <ul
+                aria-label="Search results"
+                className={styles.results}
+                role="list"
+              >
+                {results.map((result) => {
+                  const { slug, title } = result.item;
 
-        <FieldError />
-
-        <Popover className={styles.popover}>
-          <ListBox>
-            {results.map((result) => {
-              const { item } = result;
-
-              return (
-                <ListBoxItem id={item.slug} key={item.slug}>
-                  {item.title}
-                </ListBoxItem>
-              );
-            })}
-          </ListBox>
-        </Popover>
-      </ComboBox>
-    </form>
+                  return (
+                    <li key={slug}>
+                      {slug.startsWith("/") ? (
+                        <Link to={slug}>{title}</Link>
+                      ) : (
+                        <a href={slug}>{title}</a>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </Dialog>
+      </Modal>
+    </DialogTrigger>
   );
 };

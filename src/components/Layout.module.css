@@ -1,3 +1,9 @@
+:global(*),
+:global(*:after),
+:global(*:before) {
+  box-sizing: border-box;
+}
+
 :global(html) {
   color: #222;
   font-family: sans-serif;

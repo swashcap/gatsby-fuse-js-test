@@ -3,6 +3,10 @@ import Fuse from "fuse.js";
 import { graphql, useStaticQuery } from "gatsby";
 
 import { useCachedFetch } from "./useCachedFetch";
+import {
+  validateExternalIndex,
+  validateExternalResults,
+} from "./validateExternal";
 
 export interface SearchResult {
   id: string;
@@ -12,6 +16,10 @@ export interface SearchResult {
 
 const externalOptions = { timeout: 5000 };
 
+/**
+ * Fetch results and Fuse.js indices (created by `Fuse.createIndex`) via
+ * network requests and return a loaded Fuse.js instance.
+ */
 export const useFuse = () => {
   const data = useStaticQuery(graphql`
     query UseFuse {
@@ -61,18 +69,8 @@ export const useFuse = () => {
       resultsFetch.data &&
       externalIndexFetch.data &&
       externalResultsFetch.data &&
-      // Validate external data:
-      !!externalIndexFetch.data &&
-      typeof externalIndexFetch.data === "object" &&
-      "data" in externalIndexFetch.data &&
-      !!externalIndexFetch.data.data &&
-      typeof externalIndexFetch.data.data === "object" &&
-      "records" in externalIndexFetch.data.data &&
-      Array.isArray(externalIndexFetch.data.data.records) &&
-      !!externalResultsFetch.data &&
-      typeof externalResultsFetch.data === "object" &&
-      "data" in externalResultsFetch.data &&
-      Array.isArray(externalResultsFetch.data.data)
+      validateExternalIndex(externalIndexFetch.data) &&
+      validateExternalResults(externalResultsFetch.data)
     ) {
       const parsedIndex = Fuse.parseIndex({
         keys: indexFetch.data.data.keys,
@@ -113,14 +111,14 @@ export const useFuse = () => {
     }
 
     if (indexFetch.data && resultsFetch.data) {
-      // const parsedIndex = Fuse.parseIndex(indexFetch.data);
+      const parsedIndex = Fuse.parseIndex(indexFetch.data);
 
       console.info("Creating singular Fuse.js instance");
 
       const fuse = new Fuse<SearchResult>(
         resultsFetch.data.data,
         { keys: ["title"] },
-        // parsedIndex,
+        parsedIndex,
       );
 
       setFuse(fuse);
@@ -133,7 +131,7 @@ export const useFuse = () => {
       resultsFetch.error,
       externalIndexFetch.error,
       externalResultsFetch.error,
-    ],
+    ].filter((e): e is Error => !!e && e instanceof Error),
     fuse,
     isLoading:
       indexFetch.isLoading ||
